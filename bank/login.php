@@ -3,15 +3,17 @@ session_start();
 require_once "../utils/auth.php";
 
 // Don't show if already logged
-if (is_auth_admin()) {
+if (is_auth_bank()) {
     header("Location: ./index.php");
 }
 
 // POST
 $error = "";
 if ($_SERVER['REQUEST_METHOD'] == "POST" && $_POST["username"] && $_POST["password"]) {
-    if (auth_admin($_POST["username"], $_POST["password"])) {
-        $_SESSION["is_admin"] = true;
+    if ($bank_id = auth_bank($_POST["username"], $_POST["password"])) {
+        $_SESSION["is_bank"] = true;
+        $_SESSION["bank"] = $_POST["username"];
+        $_SESSION["bank_id"] = $bank_id;
         header("Location: ./index.php");
     } else {
         $error = '<div class="alert alert-danger" role="alert">Invalid credentials</div>';
@@ -28,12 +30,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && $_POST["username"] && $_POST["passwo
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-    <title>Login Admin</title>
+    <title>Login Banque</title>
   </head>
   <body>
     <div class="container mt-5">
-        <h2 >Espace Admin</h2>
-        <form method="POST" class="mb-2">
+        <h2>Espace Banque</h2>
+        <form method="POST">
             <div class="row">
                 <div class="col">
                     <input required name="username" type="text" class="form-control" placeholder="username" aria-label="username">

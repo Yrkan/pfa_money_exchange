@@ -1,8 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 if  (!(isset($_POST["servername"], $_POST["dbuser"], $_POST["dbpass"], $_POST["adminuser"], $_POST["adminpass"]))) {
     header('Location: ./index.php');
 }
@@ -80,7 +76,7 @@ if ($conn->query($sql) === TRUE) {
 }
 
 // Create agency Table
-$sql = "CREATE TABLE `dbpfa`.`agency` ( id int NOT NULL, bank_id int NOT NULL, latitude DECIMAL(11,8), longitude DECIMAL(11,8), PRIMARY KEY (id), FOREIGN KEY (bank_id) REFERENCES bank(id) ); ";
+$sql = "CREATE TABLE `dbpfa`.`agency` ( id int NOT NULL AUTO_INCREMENT, name varchar(255) NOT NULL, bank_id int NOT NULL, latitude DECIMAL(11,8), longitude DECIMAL(11,8), PRIMARY KEY (id), FOREIGN KEY (bank_id) REFERENCES bank(id) ); ";
 if ($conn->query($sql) === TRUE) {
     echo "Table agency created successfully<br/>";
   } else {
@@ -88,7 +84,7 @@ if ($conn->query($sql) === TRUE) {
 }
 
 // Create offre Table
-$sql = "CREATE TABLE `dbpfa`.`offre`( id INT NOT NULL, bank_id INT NOT NULL, devise_id INT NOT NULL, price DECIMAL(10,2), type ENUM('buy', 'sell'), PRIMARY KEY(id), FOREIGN KEY(bank_id) REFERENCES bank(id), FOREIGN KEY(devise_id) REFERENCES devise(id) ); ";
+$sql = "CREATE TABLE `dbpfa`.`offer`( id INT NOT NULL AUTO_INCREMENT, bank_id INT NOT NULL, devise_id INT NOT NULL, price DECIMAL(10,2), type ENUM('buy', 'sell'), PRIMARY KEY(id), FOREIGN KEY(bank_id) REFERENCES bank(id), FOREIGN KEY(devise_id) REFERENCES devise(id) ); ";
 if ($conn->query($sql) === TRUE) {
     echo "Table offer created successfully<br/>";
   } else {
@@ -104,7 +100,7 @@ if ($conn->query($sql) === TRUE) {
 }
 
 // Create transaction table
-$sql = "CREATE TABLE `dbpfa`.`transaction` ( `id` INT NOT NULL AUTO_INCREMENT , `type` ENUM('buy','sell') NOT NULL , `devise_id` INT NOT NULL , `client_id` INT NOT NULL , `bank_id` INT NOT NULL , `amount` DECIMAL(10,2) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB; ";
+$sql = "CREATE TABLE `dbpfa`.`transaction` ( `id` INT NOT NULL AUTO_INCREMENT , `type` ENUM('buy','sell') NOT NULL , `devise_id` INT NOT NULL , `client_id` INT NOT NULL , `bank_id` INT NOT NULL , `amount` DECIMAL(10,2) NOT NULL, `date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`)) ENGINE = InnoDB; ";
 if ($conn->query($sql) === TRUE) {
     echo "Table transaction created successfully<br/>";
     $message = "Installed successully, please delete /install folder for security reasons";
