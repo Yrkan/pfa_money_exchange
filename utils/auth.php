@@ -13,6 +13,13 @@ function is_auth_bank() {
     return false;
 }
 
+function is_auth_user() {
+    if (isset($_SESSION["is_user"]) && $_SESSION["is_user"]) {
+        return true;
+    }
+    return false;
+}
+
 function auth_admin($username, $password) {
     require "../db.php";
 
@@ -39,6 +46,28 @@ function auth_bank($username, $password) {
     require "../db.php";
 
     $q = "SELECT id, username, password FROM bank where username = '$username'"; 
+    if ($stmt = $conn->prepare($q)){
+        $stmt->execute(); 
+
+        $result = $stmt->get_result(); 
+
+        $row=$result->fetch_object();
+        
+        if ($row && password_verify($password, $row->password)) {
+            return $row->id;
+        }
+
+        return false;
+
+    } else { 
+        return false; 
+    }
+}
+
+function auth_user($username, $password) {
+    require "../db.php";
+
+    $q = "SELECT id, username, password FROM client where username = '$username'"; 
     if ($stmt = $conn->prepare($q)){
         $stmt->execute(); 
 

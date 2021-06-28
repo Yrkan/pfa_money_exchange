@@ -85,4 +85,16 @@ function delete_agency($agency_id, $bank_id) {
         return false;
     }
 }
+
+function add_transaction($type, $devise_id, $client_id, $bank_id, $price, $amount) {
+    require_once "../db.php";
+    $sql = "INSERT INTO transaction (type, devise_id, client_id, bank_id, price, amount) VALUES ('$type', '$devise_id', '$client_id', '$bank_id', '$price', '$amount');";
+
+    if ($conn->query($sql) === TRUE) {
+        return true;
+    } else {
+        //echo "Error: " . $sql . "<br>" . $conn->error;
+        return false;
+    }
+}
 ?>

@@ -100,7 +100,7 @@ if ($conn->query($sql) === TRUE) {
 }
 
 // Create transaction table
-$sql = "CREATE TABLE `dbpfa`.`transaction` ( `id` INT NOT NULL AUTO_INCREMENT , `type` ENUM('buy','sell') NOT NULL , `devise_id` INT NOT NULL , `client_id` INT NOT NULL , `bank_id` INT NOT NULL , `amount` DECIMAL(10,2) NOT NULL, `date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`)) ENGINE = InnoDB; ";
+$sql = "CREATE TABLE `dbpfa`.`transaction` ( `id` INT NOT NULL AUTO_INCREMENT , `type` ENUM('buy','sell') NOT NULL , `devise_id` INT NOT NULL , `client_id` INT NOT NULL , `bank_id` INT NOT NULL , `amount` DECIMAL(10,2) NOT NULL, `price` DECIMAL(10,2) NOT NULL,  `date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`)) ENGINE = InnoDB; ";
 if ($conn->query($sql) === TRUE) {
     echo "Table transaction created successfully<br/>";
     $message = "Installed successully, please delete /install folder for security reasons";
